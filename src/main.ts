@@ -7,4 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);
 }
+
 bootstrap();
+
+// https://github.com/hcodebr/nestjs-typeorm-mysql
+// https://github.com/hcodebr/nestjs-prisma-mysql
