@@ -15,7 +15,7 @@ export class CryptoService {
    */
   async hash(text: string): Promise<string> {
     try {
-      if (!text) {
+      if (!text || !text.length) {
         throw 'text cannot be null or empty';
       }
 
@@ -40,11 +40,11 @@ export class CryptoService {
    */
   async check(text: string, hashedText: string): Promise<boolean> {
     try {
-      if (!text) {
+      if (!text || !text.length) {
         throw 'text cannot be null or empty';
       }
 
-      if (!hashedText) {
+      if (!hashedText || !hashedText.length) {
         throw 'hashedText cannot be null or empty';
       }
 

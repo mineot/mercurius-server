@@ -21,57 +21,29 @@ describe('CryptoService', () => {
     expect(result).toBe(true);
   });
 
-  it('hash text null', async () => {
-    try {
-      await service.hash(null);
-      fail('text cannot be null');
-    } catch (err) {
-      expect(err).toBeInstanceOf(BadRequestException);
-    }
-  });
+  it('hash text null', () =>
+    expect(service.hash(null)).rejects.toBeInstanceOf(BadRequestException));
 
-  it('hash text empty', async () => {
-    try {
-      await service.hash('');
-      fail('text cannot be empty');
-    } catch (err) {
-      expect(err).toBeInstanceOf(BadRequestException);
-    }
-  });
+  it('hash text empty', () =>
+    expect(service.hash('')).rejects.toBeInstanceOf(BadRequestException));
 
-  it('check text null', async () => {
-    try {
-      await service.check(null, '123456789');
-      fail('text cannot be null');
-    } catch (err) {
-      expect(err).toBeInstanceOf(BadRequestException);
-    }
-  });
+  it('check text null', () =>
+    expect(service.check(null, '123456789')).rejects.toBeInstanceOf(
+      BadRequestException,
+    ));
 
-  it('check hashedText null', async () => {
-    try {
-      await service.check('123456789', null);
-      fail('hashedText cannot be null');
-    } catch (err) {
-      expect(err).toBeInstanceOf(BadRequestException);
-    }
-  });
+  it('check hashedText null', () =>
+    expect(service.check('123456789', null)).rejects.toBeInstanceOf(
+      BadRequestException,
+    ));
 
-  it('check text emtpy', async () => {
-    try {
-      await service.check('', '123456789');
-      fail('text cannot be empty');
-    } catch (err) {
-      expect(err).toBeInstanceOf(BadRequestException);
-    }
-  });
+  it('check text emtpy', () =>
+    expect(service.check('', '123456789')).rejects.toBeInstanceOf(
+      BadRequestException,
+    ));
 
-  it('check hashedText emtpy', async () => {
-    try {
-      await service.check('123456789', '');
-      fail('hashedText cannot be empty');
-    } catch (err) {
-      expect(err).toBeInstanceOf(BadRequestException);
-    }
-  });
+  it('check hashedText emtpy', () =>
+    expect(service.check('123456789', '')).rejects.toBeInstanceOf(
+      BadRequestException,
+    ));
 });
