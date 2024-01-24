@@ -11,7 +11,7 @@ export class CryptoService {
    * Hashes the input text and returns the hashed string.
    * @param {string} text - The input text to be hashed.
    * @returns {Promise<string>} A promise that resolves to the hashed string.
-   * @throws {BadRequestException<BadRequestError>} throws an exception if the text is null or empty.
+   * @throws {BadRequestException} throws an exception if the text is null or empty.
    */
   async hash(text: string): Promise<string> {
     try {
@@ -25,7 +25,7 @@ export class CryptoService {
     } catch (error) {
       new BadRequestError({
         origin: ['core', 'security', 'crypto.service', 'hash'],
-        i18nRef: 'exception.hashing.failed',
+        i18nRef: 'crypto.hashing.failed',
         error,
       }).doThrow();
     }
@@ -36,8 +36,25 @@ export class CryptoService {
    * @param {string} text - The input text to be compared.
    * @param {string} hashedText - The hashed text to compare with.
    * @returns {Promise<boolean>} A promise that resolves to a boolean indicating whether the texts match.
+   * @throws {BadRequestException} throws an exception if the text or hashedText is null or empty.
    */
   async check(text: string, hashedText: string): Promise<boolean> {
-    return await bcrypt.compare(text, hashedText);
+    try {
+      if (!text) {
+        throw 'text cannot be null or empty';
+      }
+
+      if (!hashedText) {
+        throw 'hashedText cannot be null or empty';
+      }
+
+      return await bcrypt.compare(text, hashedText);
+    } catch (error) {
+      new BadRequestError({
+        origin: ['core', 'security', 'crypto.service', 'check'],
+        i18nRef: 'crypto.check.failed',
+        error,
+      }).doThrow();
+    }
   }
 }

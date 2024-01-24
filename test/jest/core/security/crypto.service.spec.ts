@@ -38,4 +38,40 @@ describe('CryptoService', () => {
       expect(err).toBeInstanceOf(BadRequestException);
     }
   });
+
+  it('check text null', async () => {
+    try {
+      await service.check(null, '123456789');
+      fail('text cannot be null');
+    } catch (err) {
+      expect(err).toBeInstanceOf(BadRequestException);
+    }
+  });
+
+  it('check hashedText null', async () => {
+    try {
+      await service.check('123456789', null);
+      fail('hashedText cannot be null');
+    } catch (err) {
+      expect(err).toBeInstanceOf(BadRequestException);
+    }
+  });
+
+  it('check text emtpy', async () => {
+    try {
+      await service.check('', '123456789');
+      fail('text cannot be empty');
+    } catch (err) {
+      expect(err).toBeInstanceOf(BadRequestException);
+    }
+  });
+
+  it('check hashedText emtpy', async () => {
+    try {
+      await service.check('123456789', '');
+      fail('hashedText cannot be empty');
+    } catch (err) {
+      expect(err).toBeInstanceOf(BadRequestException);
+    }
+  });
 });
