@@ -15,4 +15,10 @@ describe('CryptoService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('hash and check', async () => {
+    const hashed = await service.hash('123456789');
+    const result = await service.check('123456789', hashed);
+    expect(result).toBe(true);
+  });
 });
