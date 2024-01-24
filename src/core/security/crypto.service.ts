@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { BadRequestError } from '../errors/badrequest.error';
+import { BadRequestError } from '../system/errors/bad-request.error';
 
 /**
  * Service for handling cryptographic operations such as hashing and checking text.
@@ -23,12 +23,11 @@ export class CryptoService {
       const hashedText: string = await bcrypt.hash(text, salt);
       return hashedText;
     } catch (error) {
-      throw new BadRequestException(<BadRequestError>{
+      new BadRequestError({
         origin: ['core', 'security', 'crypto.service', 'hash'],
         i18nRef: 'exception.hashing.failed',
-        message: error.message,
         error,
-      });
+      }).doThrow();
     }
   }
 
