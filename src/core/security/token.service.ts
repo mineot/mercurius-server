@@ -14,14 +14,18 @@ export class TokenService {
    * @throws {Error} throw an error if the singed fails
    */
   async signIndex(): Promise<string> {
-    return await this.$jwt.signAsync(
-      {},
-      {
-        subject: 'granted access to public content',
-        issuer: 'guest',
-        audience: 'index',
-      },
-    );
+    try {
+      return await this.$jwt.signAsync(
+        {},
+        {
+          subject: 'granted access to public content',
+          issuer: 'guest',
+          audience: 'index',
+        },
+      );
+    } catch (err) {
+      throw err.message;
+    }
   }
 
   /**
@@ -31,11 +35,16 @@ export class TokenService {
    * @throws {Error} throw an error if the verification fails
    */
   async verifyIndex(token: string): Promise<boolean> {
-    await this.$jwt.verifyAsync(token, {
-      issuer: 'guest',
-      audience: 'index',
-    });
-    return true;
+    try {
+      await this.$jwt.verifyAsync(token, {
+        issuer: 'guest',
+        audience: 'index',
+      });
+
+      return true;
+    } catch (err) {
+      throw err.message;
+    }
   }
 
   // async sign(data: any): Promise<any> {
