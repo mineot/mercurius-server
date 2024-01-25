@@ -4,6 +4,6 @@ import { SecurityModule } from './security/security.module';
 
 @Module({
   imports: [DatabaseModule, SecurityModule],
-  exports: [SecurityModule],
+  exports: [DatabaseModule, SecurityModule],
 })
 export class CoreModule {}
