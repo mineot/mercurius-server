@@ -10,6 +10,6 @@ import { TokenService } from './token.service';
     }),
   ],
   providers: [CryptoService, TokenService],
-  exports: [CryptoService],
+  exports: [CryptoService, TokenService],
 })
 export class SecurityModule {}
