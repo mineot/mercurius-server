@@ -1,43 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
+const throwError = (value: string, message: string) => {
+  if (!value || !value.length) {
+    throw new Error(message);
+  }
+};
+
 /**
- * Service for handling cryptographic operations such as hashing and checking text.
+ * Service for handling cryptographic operations.
  */
 @Injectable()
 export class CryptoService {
   /**
-   * Hashes the input text and returns the hashed string.
-   * @param {string} text - The input text to be hashed.
-   * @returns {Promise<string>} A promise that resolves to the hashed string.
-   * @throws {BadRequestException} throws an exception if the text is null or empty.
+   * Asynchronously hashes the input text using bcrypt.
+   * @param {string} text - the text to be hashed
+   * @return {Promise<string>} the hashed text
+   * @throws {Error} throw an error if the text is null or empty
    */
   async hash(text: string): Promise<string> {
-    if (!text || !text.length) {
-      throw new Error('text cannot be null or empty');
-    }
-
+    throwError(text, 'text cannot be null or empty');
     const salt: string = await bcrypt.genSalt();
     const hashedText: string = await bcrypt.hash(text, salt);
     return hashedText;
   }
 
   /**
-   * Compares the input text with the hashed text using bcrypt.
-   * @param {string} text - The input text to be compared.
-   * @param {string} hashedText - The hashed text to compare with.
-   * @returns {Promise<boolean>} A promise that resolves to a boolean indicating whether the texts match.
-   * @throws {BadRequestException} throws an exception if the text or hashedText is null or empty.
+   * Checks if the given text matches the hashed text.
+   * @param {string} text - the plain text to compare
+   * @param {string} hashedText - the hashed text to compare against
+   * @return {Promise<boolean>} a boolean indicating whether the text matches the hashed text
+   * @throws {Error} throw an error if the text or hashedText is null or empty
    */
   async check(text: string, hashedText: string): Promise<boolean> {
-    if (!text || !text.length) {
-      throw new Error('text cannot be null or empty');
-    }
-
-    if (!hashedText || !hashedText.length) {
-      throw new Error('hashedText cannot be null or empty');
-    }
-
+    throwError(text, 'text cannot be null or empty');
+    throwError(hashedText, 'hashedText cannot be null or empty');
     return await bcrypt.compare(text, hashedText);
   }
 }
