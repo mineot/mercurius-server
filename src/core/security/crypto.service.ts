@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 /**
@@ -13,17 +13,13 @@ export class CryptoService {
    * @throws {BadRequestException} throws an exception if the text is null or empty.
    */
   async hash(text: string): Promise<string> {
-    try {
-      if (!text || !text.length) {
-        throw 'text cannot be null or empty';
-      }
-
-      const salt: string = await bcrypt.genSalt();
-      const hashedText: string = await bcrypt.hash(text, salt);
-      return hashedText;
-    } catch (err) {
-      throw new BadRequestException(err);
+    if (!text || !text.length) {
+      throw new Error('text cannot be null or empty');
     }
+
+    const salt: string = await bcrypt.genSalt();
+    const hashedText: string = await bcrypt.hash(text, salt);
+    return hashedText;
   }
 
   /**
@@ -34,18 +30,14 @@ export class CryptoService {
    * @throws {BadRequestException} throws an exception if the text or hashedText is null or empty.
    */
   async check(text: string, hashedText: string): Promise<boolean> {
-    try {
-      if (!text || !text.length) {
-        throw 'text cannot be null or empty';
-      }
-
-      if (!hashedText || !hashedText.length) {
-        throw 'hashedText cannot be null or empty';
-      }
-
-      return await bcrypt.compare(text, hashedText);
-    } catch (err) {
-      throw new BadRequestException(err);
+    if (!text || !text.length) {
+      throw new Error('text cannot be null or empty');
     }
+
+    if (!hashedText || !hashedText.length) {
+      throw new Error('hashedText cannot be null or empty');
+    }
+
+    return await bcrypt.compare(text, hashedText);
   }
 }

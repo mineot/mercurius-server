@@ -1,4 +1,3 @@
-import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CryptoService } from '../../../../src/core/security/crypto.service';
 
@@ -21,29 +20,33 @@ describe('CryptoService', () => {
     expect(result).toBe(true);
   });
 
-  it('hash text null', () =>
-    expect(service.hash(null)).rejects.toBeInstanceOf(BadRequestException));
-
-  it('hash text empty', () =>
-    expect(service.hash('')).rejects.toBeInstanceOf(BadRequestException));
-
-  it('check text null', () =>
-    expect(service.check(null, '123456789')).rejects.toBeInstanceOf(
-      BadRequestException,
+  it('hash text null', async () =>
+    await expect(service.hash(null)).rejects.toThrow(
+      'text cannot be null or empty',
     ));
 
-  it('check hashedText null', () =>
-    expect(service.check('123456789', null)).rejects.toBeInstanceOf(
-      BadRequestException,
+  it('hash text empty', async () =>
+    await expect(service.hash('')).rejects.toThrow(
+      'text cannot be null or empty',
     ));
 
-  it('check text emtpy', () =>
-    expect(service.check('', '123456789')).rejects.toBeInstanceOf(
-      BadRequestException,
+  it('check text null', async () =>
+    await expect(service.check(null, '123456789')).rejects.toThrow(
+      'text cannot be null or empty',
     ));
 
-  it('check hashedText emtpy', () =>
-    expect(service.check('123456789', '')).rejects.toBeInstanceOf(
-      BadRequestException,
+  it('check text emtpy', async () =>
+    await expect(service.check('', '123456789')).rejects.toThrow(
+      'text cannot be null or empty',
+    ));
+
+  it('check hashedText null', async () =>
+    await expect(service.check('123456789', null)).rejects.toThrow(
+      'hashedText cannot be null or empty',
+    ));
+
+  it('check hashedText emtpy', async () =>
+    await expect(service.check('123456789', '')).rejects.toThrow(
+      'hashedText cannot be null or empty',
     ));
 });
