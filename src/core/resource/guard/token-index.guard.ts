@@ -12,24 +12,24 @@ export class TokenIndexGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
-      const request = context.switchToHttp().getRequest();
-      const headers = request.headers;
+      // const request = context.switchToHttp().getRequest();
+      // const headers = request.headers;
 
-      if (
-        !headers ||
-        !headers.authorization ||
-        !headers.authorization.startsWith('Bearer ')
-      ) {
-        throw 'Authorization bearer header not found';
-      }
+      // if (
+      //   !headers ||
+      //   !headers.authorization ||
+      //   !headers.authorization.startsWith('Bearer ')
+      // ) {
+      //   throw 'Authorization bearer header not found';
+      // }
 
-      const token = headers.authorization.split('Bearer ')[1];
+      // const token = headers.authorization.split('Bearer ')[1];
 
-      try {
-        await this.$token.verifyIndex(token);
-      } catch (err) {
-        throw err.message;
-      }
+      // try {
+      //   await this.$token.verifyIndex(token);
+      // } catch (err) {
+      //   throw err.message;
+      // }
 
       return true;
     } catch (err) {

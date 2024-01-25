@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 /**
@@ -10,46 +6,36 @@ import { JwtService } from '@nestjs/jwt';
  */
 @Injectable()
 export class TokenService {
-  /**
-   * Constructor for TokenService.
-   * @param {JwtService} $jwt - The JwtService instance.
-   */
   constructor(private readonly $jwt: JwtService) {}
 
   /**
-   * Signs and returns a token for granting access to public content.
-   * @returns {Promise<string>} The signed token.
+   * Asynchronously signs the index.
+   * @return {Promise<string>} the signed index
+   * @throws {Error} throw an error if the singed fails
    */
   async signIndex(): Promise<string> {
-    try {
-      return await this.$jwt.signAsync(
-        {},
-        {
-          subject: 'granted access to public content',
-          issuer: 'guest',
-          audience: 'index',
-        },
-      );
-    } catch (err) {
-      throw new BadRequestException(err);
-    }
+    return await this.$jwt.signAsync(
+      {},
+      {
+        subject: 'granted access to public content',
+        issuer: 'guest',
+        audience: 'index',
+      },
+    );
   }
 
   /**
-   * Verifies the given token for access to public content.
-   * @param {string} token - The token to verify.
-   * @returns {Promise<boolean>} True if the token is valid, false otherwise.
+   * Verify the index using the given token.
+   * @param {string} token - The token to be verified
+   * @return {Promise<boolean>} A boolean indicating the verification result
+   * @throws {Error} throw an error if the verification fails
    */
   async verifyIndex(token: string): Promise<boolean> {
-    try {
-      await this.$jwt.verifyAsync(token, {
-        issuer: 'guest',
-        audience: 'index',
-      });
-      return true;
-    } catch (err) {
-      throw new ForbiddenException(err);
-    }
+    await this.$jwt.verifyAsync(token, {
+      issuer: 'guest',
+      audience: 'index',
+    });
+    return true;
   }
 
   // async sign(data: any): Promise<any> {
@@ -62,10 +48,10 @@ export class TokenService {
   //       // },
   //       data,
   //       {
-  //         subject: 'subject', //TODO token description
-  //         expiresIn: '30 minutes', //TODO need define
-  //         issuer: 'users???', //TODO define to user type
-  //         audience: 'login???', //TODO define the objective of this token
+  //         subject: 'subject',
+  //         expiresIn: '30 minutes',
+  //         issuer: 'users???',
+  //         audience: 'login???',
   //       },
   //     ),
   //   };
