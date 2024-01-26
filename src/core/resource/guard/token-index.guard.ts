@@ -30,14 +30,14 @@ export class TokenIndexGuard implements CanActivate {
 
       // Throw an error if the token is not found
       if (!token) {
-        throw 'Authorization (Bearer) header not found';
+        throw 'authorization not found';
       }
 
       // Verify the token and return the result
       return await this.$token.verifyIndex(token);
     } catch (err) {
       // Throw a ForbiddenException if an error occurs
-      throw new ForbiddenException(err);
+      throw new ForbiddenException(err, 'authorization failed');
     }
   }
 }

@@ -99,8 +99,10 @@ describe('TokenService', () => {
   it('should allow access when the token is valid', async () => {
     const request = { headers: { authorization: 'Bearer 123.456.789' } };
     const context = new MockExecutionContext(request);
+
     jest.spyOn(guard, 'canActivate').mockResolvedValue(true);
     service.verifyIndex = jest.fn().mockReturnValue(Promise.resolve(true));
+
     const canActivate = await guard.canActivate(context);
     expect(canActivate).toBeTruthy();
   });
@@ -108,7 +110,9 @@ describe('TokenService', () => {
   it('should deny access when the token is invalid', async () => {
     const request = { headers: { authorization: 'Bearer meu-token-invalido' } };
     const context = new MockExecutionContext(request);
+
     service.verifyIndex = jest.fn().mockReturnValue(Promise.resolve(false));
+
     await expect(guard.canActivate(context)).rejects.toBeInstanceOf(
       ForbiddenException,
     );
@@ -118,12 +122,10 @@ describe('TokenService', () => {
     const request = { headers: {} };
     const context = new MockExecutionContext(request);
 
-    jest.spyOn(guard, 'canActivate').mockImplementation(async () => {
-      throw new ForbiddenException('Authorization (Bearer) header not found');
-    });
+    service.verifyIndex = jest.fn().mockReturnValue(Promise.resolve(false));
 
     await expect(guard.canActivate(context)).rejects.toThrow(
-      'Authorization (Bearer) header not found',
+      'authorization not found',
     );
 
     await expect(guard.canActivate(context)).rejects.toBeInstanceOf(
@@ -135,12 +137,10 @@ describe('TokenService', () => {
     const request = { headers: { authorization: 'Aearer 123.456.789' } };
     const context = new MockExecutionContext(request);
 
-    jest.spyOn(guard, 'canActivate').mockImplementation(async () => {
-      throw new ForbiddenException('Authorization (Bearer) header not found');
-    });
+    service.verifyIndex = jest.fn().mockReturnValue(Promise.resolve(false));
 
     await expect(guard.canActivate(context)).rejects.toThrow(
-      'Authorization (Bearer) header not found',
+      'authorization not found',
     );
 
     await expect(guard.canActivate(context)).rejects.toBeInstanceOf(
