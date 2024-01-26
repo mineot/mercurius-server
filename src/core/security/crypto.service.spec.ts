@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CryptoService } from '../../../../src/core/security/crypto.service';
+import { CryptoService } from './crypto.service';
 
 describe('CryptoService', () => {
   let service: CryptoService;

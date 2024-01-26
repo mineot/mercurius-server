@@ -15,9 +15,9 @@ export class TokenIndexGuard implements CanActivate {
 
   /**
    * Determines if the user can activate a certain context.
-   *
    * @param {ExecutionContext} context - the execution context
    * @return {Promise<boolean>} a promise that resolves to a boolean indicating if the user can activate the context
+   * @throws {ForbiddenException} throws a ForbiddenException if authorization fails
    */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
