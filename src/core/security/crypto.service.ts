@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
+/**
+ * Throws an error if the value is empty.
+ * @param {string} value - the value to check
+ * @param {string} message - the error message to throw
+ * @throws {Error} throw an error if the value is empty
+ */
 const throwError = (value: string, message: string) => {
   if (!value || !value.length) {
     throw new Error(message);

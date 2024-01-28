@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DBService } from './db.service';
 
-describe('PrismaService', () => {
+describe('DBService', () => {
   let service: DBService;
 
   beforeEach(async () => {
