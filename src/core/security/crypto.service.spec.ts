@@ -21,28 +21,28 @@ describe('CryptoService', () => {
   });
 
   it('hash text null', async () =>
-    await expect(service.hash(null)).rejects.toThrow('crypto hash failed'));
+    await expect(service.hash(null)).rejects.toThrow('crypto.hash.failed'));
 
   it('hash text empty', async () =>
-    await expect(service.hash('')).rejects.toThrow('crypto hash failed'));
+    await expect(service.hash('')).rejects.toThrow('crypto.hash.failed'));
 
   it('check text null', async () =>
     await expect(service.check(null, '123456789')).rejects.toThrow(
-      'crypto check failed',
+      'crypto.check.failed',
     ));
 
   it('check text emtpy', async () =>
     await expect(service.check('', '123456789')).rejects.toThrow(
-      'crypto check failed',
+      'crypto.check.failed',
     ));
 
   it('check hashedText null', async () =>
     await expect(service.check('123456789', null)).rejects.toThrow(
-      'crypto check failed',
+      'crypto.check.failed',
     ));
 
   it('check hashedText emtpy', async () =>
     await expect(service.check('123456789', '')).rejects.toThrow(
-      'crypto check failed',
+      'crypto.check.failed',
     ));
 });

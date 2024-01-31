@@ -2,26 +2,15 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 /**
- * Throws a BadRequestException with the given message.
- *
- * @param {string} message - the message for the BadRequestException
- * @return {void} - void
- * @throws {BadRequestException} throw a BadRequestException with the given message
- */
-const throwBadRequest = (message: string): void => {
-  throw new BadRequestException(message);
-};
-
-/**
  * Checks if the given value is empty, and throws a bad request error with the provided message if it is.
  *
  * @param {string} value - the value to be checked for emptiness
  * @param {string} message - the message to be included in the bad request error
- * @throws {BadRequestException} throw a BadRequestException with the provided message
+ * @throws {Error} throw a error with the provided message
  */
 const checkValueEmpty = (value: string, message: string): void => {
   if (!value || !value.length) {
-    throwBadRequest(message);
+    throw message;
   }
 };
 
@@ -38,14 +27,14 @@ export class CryptoService {
    * @throws {BadRequestException} throw an error if the text is null or empty
    */
   async hash(text: string): Promise<string> {
-    checkValueEmpty(text, 'crypto hash failed');
-
     try {
+      checkValueEmpty(text, 'crypto.hash.failed');
+
       const salt: string = await bcrypt.genSalt();
       const hashedText: string = await bcrypt.hash(text, salt);
       return hashedText;
     } catch (err) {
-      throwBadRequest(err.message);
+      throw new BadRequestException(err);
     }
   }
 
@@ -58,13 +47,13 @@ export class CryptoService {
    * @throws {BadRequestException} throw an error if the text or hashedText is null or empty
    */
   async check(text: string, hashedText: string): Promise<boolean> {
-    checkValueEmpty(text, 'crypto check failed');
-    checkValueEmpty(hashedText, 'crypto check failed');
-
     try {
+      checkValueEmpty(text, 'crypto.check.failed');
+      checkValueEmpty(hashedText, 'crypto.check.failed');
+
       return await bcrypt.compare(text, hashedText);
     } catch (err) {
-      throwBadRequest(err.message);
+      throw new BadRequestException(err);
     }
   }
 }

@@ -37,7 +37,7 @@ export class TokenIndexGuard implements CanActivate {
       return await this.$token.verifyIndex(token);
     } catch (err) {
       // Throw a ForbiddenException if an error occurs
-      throw new ForbiddenException(err, 'authorization failed');
+      throw new ForbiddenException(err);
     }
   }
 }

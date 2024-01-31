@@ -3,10 +3,21 @@ import { Admin } from '@prisma/client';
 import { ConfigureDTO } from './app.dto';
 import { AppService } from './app.service';
 import { TokenIndexGuard } from './core/resource/guard/token-index.guard';
+import { CryptoService } from './core/security/crypto.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly $crypto: CryptoService,
+    private readonly appService: AppService,
+  ) {}
+
+  // TODO remove this route
+  @Get('test')
+  async test() {
+    await this.$crypto.check(null, null);
+    return 'Test';
+  }
 
   @Get()
   @UseGuards(TokenIndexGuard)
