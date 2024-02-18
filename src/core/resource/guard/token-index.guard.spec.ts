@@ -108,7 +108,7 @@ describe('TokenService', () => {
   });
 
   it('should deny access when the token is invalid', async () => {
-    const request = { headers: { authorization: 'Bearer meu-token-invalido' } };
+    const request = { headers: { authorization: 'Bearer 123.456.789' } };
     const context = new MockExecutionContext(request);
 
     service.verifyIndex = jest.fn().mockReturnValue(Promise.resolve(false));
@@ -124,9 +124,7 @@ describe('TokenService', () => {
 
     service.verifyIndex = jest.fn().mockReturnValue(Promise.resolve(false));
 
-    await expect(guard.canActivate(context)).rejects.toThrow(
-      'authorization not found',
-    );
+    await expect(guard.canActivate(context)).rejects.toThrow('unauthorized');
 
     await expect(guard.canActivate(context)).rejects.toBeInstanceOf(
       ForbiddenException,
@@ -139,9 +137,7 @@ describe('TokenService', () => {
 
     service.verifyIndex = jest.fn().mockReturnValue(Promise.resolve(false));
 
-    await expect(guard.canActivate(context)).rejects.toThrow(
-      'authorization not found',
-    );
+    await expect(guard.canActivate(context)).rejects.toThrow('unauthorized');
 
     await expect(guard.canActivate(context)).rejects.toBeInstanceOf(
       ForbiddenException,

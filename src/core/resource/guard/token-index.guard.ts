@@ -30,7 +30,7 @@ export class TokenIndexGuard implements CanActivate {
 
       // Throw an error if the token is not found
       if (!token) {
-        throw 'authorization not found';
+        throw 'unauthorized';
       }
 
       // Verify the token and return the result
