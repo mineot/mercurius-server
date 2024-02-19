@@ -1,18 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-/**
- * Service for handling tokens.
- */
 @Injectable()
 export class TokenService {
   constructor(private readonly $jwt: JwtService) {}
 
-  /**
-   * Asynchronously signs the index.
-   * @return {Promise<string>} the signed index
-   * @throws {Error} throw an error if the singed fails
-   */
   async signIndex(): Promise<string> {
     try {
       return await this.$jwt.signAsync(
@@ -28,12 +20,6 @@ export class TokenService {
     }
   }
 
-  /**
-   * Verify the index using the given token.
-   * @param {string} token - The token to be verified
-   * @return {Promise<boolean>} A boolean indicating the verification result
-   * @throws {Error} throw an error if the verification fails
-   */
   async verifyIndex(token: string): Promise<boolean> {
     try {
       await this.$jwt.verifyAsync(token, {
