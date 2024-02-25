@@ -3,11 +3,11 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class TokenService {
-  constructor(private readonly $jwt: JwtService) {}
+  constructor(private readonly $jwtService: JwtService) {}
 
   async signIndex(): Promise<string> {
     try {
-      return await this.$jwt.signAsync(
+      return await this.$jwtService.signAsync(
         {},
         {
           subject: 'granted access to public content',
@@ -22,7 +22,7 @@ export class TokenService {
 
   async verifyIndex(token: string): Promise<boolean> {
     try {
-      await this.$jwt.verifyAsync(token, {
+      await this.$jwtService.verifyAsync(token, {
         issuer: 'guest',
         audience: 'index',
       });

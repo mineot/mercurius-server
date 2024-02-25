@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 
 @Injectable()
-export class TokenIndexGuard implements CanActivate {
-  constructor(private readonly $token: TokenService) {}
+export class PublicGuard implements CanActivate {
+  constructor(private readonly $tokenService: TokenService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
@@ -21,7 +21,7 @@ export class TokenIndexGuard implements CanActivate {
         throw 'unauthorized';
       }
 
-      return await this.$token.verifyIndex(token);
+      return await this.$tokenService.verifyIndex(token);
     } catch (err) {
       throw new ForbiddenException(err);
     }

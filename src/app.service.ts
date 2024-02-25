@@ -11,12 +11,12 @@ import { CryptoService } from './core/security/crypto.service';
 @Injectable()
 export class AppService {
   constructor(
-    private readonly $db: DBService,
-    private readonly $crypto: CryptoService,
+    private readonly $dbService: DBService,
+    private readonly $cryptoService: CryptoService,
   ) {}
 
   async index(): Promise<any> {
-    const count: number = await this.$db.admin.count();
+    const count: number = await this.$dbService.admin.count();
 
     if (!count) {
       throw new ForbiddenException('system not configured');
@@ -26,15 +26,15 @@ export class AppService {
   }
 
   async configure(data: ConfigureDTO): Promise<Admin> {
-    const count: number = await this.$db.admin.count();
+    const count: number = await this.$dbService.admin.count();
 
     if (count) {
       throw new ForbiddenException('system already configured');
     }
 
     try {
-      data.password = await this.$crypto.hash(data.password);
-      return await this.$db.admin.create({ data });
+      data.password = await this.$cryptoService.hash(data.password);
+      return await this.$dbService.admin.create({ data });
     } catch (err) {
       throw new BadRequestException(err.message);
     }

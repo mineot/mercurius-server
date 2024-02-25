@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 const checkValueEmpty = (value: string, message: string): void => {
@@ -17,7 +17,7 @@ export class CryptoService {
       const hashedText: string = await bcrypt.hash(text, salt);
       return hashedText;
     } catch (err) {
-      throw new BadRequestException(err);
+      throw err.message;
     }
   }
 
@@ -28,7 +28,7 @@ export class CryptoService {
 
       return await bcrypt.compare(text, hashedText);
     } catch (err) {
-      throw new BadRequestException(err);
+      throw err.message;
     }
   }
 }
